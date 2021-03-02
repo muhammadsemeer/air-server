@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const db = require("./config/connection");
+const loginRouter = require("./routes/login");
 const logger = require("morgan");
 // Server Port Setting
 const port = process.env.PORT || 3001;
@@ -19,6 +20,9 @@ db.connect((error) => {
   if (error) throw error;
   console.log("Database Connected");
 });
+
+// Routes
+app.use("/login", loginRouter);
 
 // Server Listen
 server.listen(port);
