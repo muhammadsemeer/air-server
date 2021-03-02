@@ -16,11 +16,11 @@ module.exports = {
             ],
           });
         if (userExist && userExist.status === "blocked") {
-          reject({ msg: "Your account is temporarily disabled for 30 Days" });
+          reject({ msg: "Your account is temporarily disabled" });
         } else if (userExist) {
           reject({ msg: "User Already Registered" });
         } else {
-          data.password = await bcrypt.hash(d, 10);
+          data.password = await bcrypt.hash(data.password, 10);
           data.status = "active"
           db.get()
             .collection(collection.USER_COLLECTION)
