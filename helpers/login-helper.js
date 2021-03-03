@@ -35,17 +35,17 @@ module.exports = {
     });
   },
   doLogin: (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         let userData = await db
-        .get()
-        .collection(collection.USER_COLLECTION)
-        .findOne({
-          $and: [
-            { $or: [{ email: data.email }, { username: data.username }] },
-            { $or: [{ status: "active" }, { status: "blocked" }] },
-          ],
-        });
+          .get()
+          .collection(collection.USER_COLLECTION)
+          .findOne({
+            $and: [
+              { $or: [{ email: data.email }, { username: data.username }] },
+              { $or: [{ status: "active" }, { status: "blocked" }] },
+            ],
+          });
         if (userData && userData.status === "blocked") {
           reject({ msg: "Your account is temporarily disabled" });
         } else if (userData) {
@@ -66,6 +66,19 @@ module.exports = {
         }
       } catch (error) {
         reject({ code: 500 });
+      }
+    });
+  },
+  checkUsername: (name) => {
+    return new Promise(async (resolve, reject) => {
+      let userName = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .findOne({ username: name });
+      if (userName) {
+        reject();
+      } else {
+        resolve();
       }
     });
   },
