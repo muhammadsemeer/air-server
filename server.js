@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const db = require("./config/connection");
-const loginRouter = require("./routes/login");
+const authRouters = require("./routes/auth");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 
@@ -27,7 +27,7 @@ db.connect((error) => {
 });
 
 // Routes
-app.use("/login", loginRouter);
+app.use("/auth", authRouters);
 
 // Server Listen
 server.listen(port);

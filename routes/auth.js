@@ -4,7 +4,7 @@ const loginHelper = require("../helpers/login-helper");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-router.post("/", (req, res) => {
+router.post("/signup", (req, res) => {
   loginHelper
     .doSignup(req.body)
     .then((response) => {
