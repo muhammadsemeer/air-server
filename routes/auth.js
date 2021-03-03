@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const loginHelper = require("../helpers/login-helper");
+const authHelper = require("../helpers/login-helper");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 router.post("/signup", (req, res) => {
-  loginHelper
+  authHelper
     .doSignup(req.body)
     .then((response) => {
       delete response.password;
@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  loginHelper
+  authHelper
     .doLogin(req.body)
     .then((response) => {
       delete response.password;
@@ -52,6 +52,25 @@ router.post("/login", (req, res) => {
         res.status(403).json({ error: error.msg });
       }
     });
+});
+
+router.get("/check", (req, res) => {
+if (req.query.username) {
+  authHelper
+  .checkUsername(req.query.username)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    if (error.code === 500) {
+      res.sendStatus(500);
+    } else {
+      res.status(403).json({ error: error.msg });
+    }
+  });
+} else {
+  res.sendStatus(400)
+}
 });
 
 module.exports = router;
