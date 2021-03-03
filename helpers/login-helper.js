@@ -71,14 +71,18 @@ module.exports = {
   },
   checkUsername: (name) => {
     return new Promise(async (resolve, reject) => {
-      let userName = await db
+      try {
+        let userName = await db
         .get()
         .collection(collection.USER_COLLECTION)
         .findOne({ username: name });
       if (userName) {
-        reject();
+        reject({msg: "Username Unavailabe"});
       } else {
-        resolve();
+        resolve({status: "Username Availabe"});
+      }
+      } catch (error) {
+        reject({ code: 500 });
       }
     });
   },
