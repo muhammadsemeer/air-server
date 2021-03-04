@@ -55,22 +55,22 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/check", (req, res) => {
-if (req.query.username) {
-  authHelper
-  .checkUsername(req.query.username)
-  .then((response) => {
-    res.json(response);
-  })
-  .catch((error) => {
-    if (error.code === 500) {
-      res.sendStatus(500);
-    } else {
-      res.status(403).json({ error: error.msg });
-    }
-  });
-} else {
-  res.sendStatus(400)
-}
+  if (req.query.username) {
+    authHelper
+      .checkUsername(req.query.username)
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((error) => {
+        if (error.code === 500) {
+          res.sendStatus(500);
+        } else {
+          res.status(403).json({ error: error.msg });
+        }
+      });
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 module.exports = router;
